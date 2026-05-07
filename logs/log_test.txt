@@ -1,0 +1,654 @@
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+Running 1 job
+{
+    "type": "diffusion_trainer",
+    "training_folder": "D:\\AI_Models\\ai-toolkit\\output",
+    "sqlite_db_path": "D:\\AI_Models\\ai-toolkit\\aitk_db.db",
+    "device": "cuda",
+    "trigger_word": "lisaFLU2Ran32alfa64",
+    "performance_log_every": 10,
+    "network": {
+        "type": "lora",
+        "linear": 32,
+        "linear_alpha": 64,
+        "conv": 32,
+        "conv_alpha": 64,
+        "lokr_full_rank": true,
+        "lokr_factor": -1,
+        "network_kwargs": {
+            "ignore_if_contains": []
+        }
+    },
+    "save": {
+        "dtype": "bf16",
+        "save_every": 500,
+        "max_step_saves_to_keep": 2,
+        "save_format": "diffusers",
+        "push_to_hub": false
+    },
+    "datasets": [
+        {
+            "folder_path": "D:\\AI_Models\\ai-toolkit\\datasets/lis",
+            "mask_path": null,
+            "mask_min_value": 0.1,
+            "default_caption": "",
+            "caption_ext": "txt",
+            "caption_dropout_rate": 0.05,
+            "cache_latents_to_disk": true,
+            "is_reg": false,
+            "network_weight": 1,
+            "resolution": [
+                512
+            ],
+            "controls": [],
+            "shrink_video_to_frames": true,
+            "num_frames": 1,
+            "flip_x": false,
+            "flip_y": false,
+            "num_repeats": 1,
+            "control_path_1": null,
+            "control_path_2": null,
+            "control_path_3": null
+        }
+    ],
+    "train": {
+        "batch_size": 1,
+        "bypass_guidance_embedding": false,
+        "steps": 2000,
+        "gradient_accumulation": 1,
+        "train_unet": true,
+        "train_text_encoder": false,
+        "gradient_checkpointing": true,
+        "noise_scheduler": "flowmatch",
+        "optimizer": "adafactor",
+        "timestep_type": "weighted",
+        "content_or_style": "balanced",
+        "optimizer_params": {
+            "weight_decay": 0.0001
+        },
+        "unload_text_encoder": true,
+        "cache_text_embeddings": false,
+        "lr": 0.0001,
+        "ema_config": {
+            "use_ema": false,
+            "ema_decay": 0.99
+        },
+        "skip_first_sample": true,
+        "force_first_sample": false,
+        "disable_sampling": true,
+        "dtype": "bf16",
+        "diff_output_preservation": false,
+        "diff_output_preservation_multiplier": 1,
+        "diff_output_preservation_class": "person",
+        "switch_boundary_every": 1,
+        "loss_type": "mse"
+    },
+    "logging": {
+        "log_every": 1,
+        "use_ui_logger": false
+    },
+    "model": {
+        "name_or_path": "black-forest-labs/FLUX.2-dev",
+        "quantize": true,
+        "qtype": "qfloat8",
+        "quantize_te": false,
+        "qtype_te": "qfloat8",
+        "arch": "flux2",
+        "low_vram": true,
+        "model_kwargs": {
+            "match_target_res": false
+        },
+        "layer_offloading": true,
+        "layer_offloading_text_encoder_percent": 0.61,
+        "layer_offloading_transformer_percent": 0.61
+    },
+    "sample": {
+        "sampler": "flowmatch",
+        "sample_every": 250,
+        "width": 1024,
+        "height": 1024,
+        "samples": [],
+        "neg": "",
+        "seed": 42,
+        "walk_seed": true,
+        "guidance_scale": 4,
+        "sample_steps": 25,
+        "num_frames": 1,
+        "fps": 1
+    }
+}
+Using SQLite database at D:\AI_Models\ai-toolkit\aitk_db.db
+
+#############################################
+# Running job: lisaFLU2Ran32alfa64
+#############################################
+
+
+Running  1 process
+Loading Flux2 model
+Loading transformer
+Quantizing Transformer
+ - quantizing 56 transformer blocks
+  0%|          | 0/56 [00:00<?, ?it/s]  2%|▏         | 1/56 [00:00<00:28,  1.94it/s]  4%|▎         | 2/56 [00:00<00:21,  2.49it/s]  5%|▌         | 3/56 [00:01<00:19,  2.70it/s]  7%|▋         | 4/56 [00:01<00:18,  2.81it/s]  9%|▉         | 5/56 [00:01<00:17,  2.90it/s] 11%|█         | 6/56 [00:02<00:17,  2.94it/s] 12%|█▎        | 7/56 [00:02<00:16,  2.97it/s] 14%|█▍        | 8/56 [00:02<00:17,  2.68it/s] 16%|█▌        | 9/56 [00:03<00:16,  2.91it/s] 18%|█▊        | 10/56 [00:03<00:14,  3.20it/s] 20%|█▉        | 11/56 [00:03<00:13,  3.45it/s] 21%|██▏       | 12/56 [00:03<00:12,  3.65it/s] 23%|██▎       | 13/56 [00:04<00:11,  3.77it/s] 25%|██▌       | 14/56 [00:04<00:10,  3.88it/s] 27%|██▋       | 15/56 [00:04<00:10,  3.95it/s] 29%|██▊       | 16/56 [00:04<00:09,  4.02it/s] 30%|███       | 17/56 [00:05<00:09,  3.91it/s] 32%|███▏      | 18/56 [00:05<00:10,  3.59it/s] 34%|███▍      | 19/56 [00:05<00:10,  3.40it/s] 36%|███▌      | 20/56 [00:06<00:10,  3.28it/s] 38%|███▊      | 21/56 [00:06<00:10,  3.21it/s] 39%|███▉      | 22/56 [00:06<00:10,  3.16it/s] 41%|████      | 23/56 [00:07<00:10,  3.09it/s] 43%|████▎     | 24/56 [00:07<00:10,  3.01it/s] 45%|████▍     | 25/56 [00:07<00:10,  2.96it/s] 46%|████▋     | 26/56 [00:08<00:10,  2.91it/s] 48%|████▊     | 27/56 [00:08<00:10,  2.89it/s] 50%|█████     | 28/56 [00:08<00:09,  2.88it/s] 52%|█████▏    | 29/56 [00:09<00:09,  2.87it/s] 54%|█████▎    | 30/56 [00:09<00:09,  2.86it/s] 55%|█████▌    | 31/56 [00:10<00:09,  2.72it/s] 57%|█████▋    | 32/56 [00:10<00:08,  2.70it/s] 59%|█████▉    | 33/56 [00:10<00:08,  2.68it/s] 61%|██████    | 34/56 [00:11<00:08,  2.63it/s] 62%|██████▎   | 35/56 [00:11<00:08,  2.60it/s] 64%|██████▍   | 36/56 [00:11<00:07,  2.68it/s] 66%|██████▌   | 37/56 [00:12<00:07,  2.60it/s] 68%|██████▊   | 38/56 [00:12<00:07,  2.44it/s] 70%|██████▉   | 39/56 [00:13<00:06,  2.47it/s] 71%|███████▏  | 40/56 [00:13<00:06,  2.50it/s] 73%|███████▎  | 41/56 [00:14<00:06,  2.45it/s] 75%|███████▌  | 42/56 [00:14<00:05,  2.42it/s] 77%|███████▋  | 43/56 [00:14<00:05,  2.23it/s] 79%|███████▊  | 44/56 [00:15<00:05,  2.30it/s] 80%|████████  | 45/56 [00:15<00:04,  2.23it/s] 82%|████████▏ | 46/56 [00:16<00:04,  2.29it/s] 84%|████████▍ | 47/56 [00:16<00:04,  2.19it/s] 86%|████████▌ | 48/56 [00:17<00:03,  2.34it/s] 88%|████████▊ | 49/56 [00:17<00:02,  2.36it/s] 89%|████████▉ | 50/56 [00:17<00:02,  2.37it/s] 91%|█████████ | 51/56 [00:18<00:02,  2.49it/s] 93%|█████████▎| 52/56 [00:18<00:01,  2.55it/s] 95%|█████████▍| 53/56 [00:19<00:01,  2.50it/s] 96%|█████████▋| 54/56 [00:19<00:00,  2.39it/s] 98%|█████████▊| 55/56 [00:19<00:00,  2.41it/s]100%|██████████| 56/56 [00:20<00:00,  2.20it/s]100%|██████████| 56/56 [00:20<00:00,  2.73it/s]
+`torch_dtype` is deprecated! Use `dtype` instead!
+ - quantizing extras
+Moving transformer to CPU
+Loading Mistral
+Loading checkpoint shards:   0%|          | 0/10 [00:00<?, ?it/s]Loading checkpoint shards:  30%|███       | 3/10 [00:00<00:00, 27.25it/s]Loading checkpoint shards:  70%|███████   | 7/10 [00:00<00:00, 34.35it/s]Loading checkpoint shards: 100%|██████████| 10/10 [00:00<00:00, 40.63it/s]
+The tokenizer you are loading from 'mistralai/Mistral-Small-3.1-24B-Instruct-2503' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+Loading VAE
+Making pipe
+Preparing Model
+Model Loaded
+create LoRA network. base dim (rank): 32, alpha: 32
+neuron dropout: p=None, rank dropout: p=None, module dropout: p=None
+apply LoRA to Conv2d with kernel size (3,3). dim (rank): 32, alpha: 32
+create LoRA for Text Encoder: 0 modules.
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+
+🦾 VIKING ATTACK: FORCING SCALE TO 2.0 (EQUIVALENT TO ALPHA 64) 🦾
+
+create LoRA for U-Net: 160 modules.
+enable LoRA for U-Net
+#### IMPORTANT RESUMING FROM D:\AI_Models\ai-toolkit\output\lisaFLU2Ran32alfa64\lisaFLU2Ran32alfa64.safetensors ####
+Loading from D:\AI_Models\ai-toolkit\output\lisaFLU2Ran32alfa64\lisaFLU2Ran32alfa64.safetensors
+Missing keys: []
+Found step 1000 in metadata, starting from there
+Total training paramiters: 195,035,136
+Loading optimizer state from D:\AI_Models\ai-toolkit\output\lisaFLU2Ran32alfa64\optimizer.pt
+Updating optimizer LR from params
+Dataset: D:\AI_Models\ai-toolkit\datasets/lis
+  -  Preprocessing image dimensions
+  0%|          | 0/17 [00:00<?, ?it/s]100%|██████████| 17/17 [00:00<00:00, 8494.54it/s]
+  -  Found 17 images
+Bucket sizes for D:\AI_Models\ai-toolkit\datasets/lis:
+512x512: 17 files
+1 buckets made
+Caching latents for D:\AI_Models\ai-toolkit\datasets/lis
+ - Saving latents to disk
+Caching latents to disk:   0%|          | 0/17 [00:00<?, ?it/s]Caching latents to disk: 100%|██████████| 17/17 [00:00<00:00, 4247.02it/s]
+Caching embeddings and unloading text encoder
+
+***** UNLOADING TEXT ENCODER *****
+This will train only with a blank prompt or trigger word, if set
+If this is not what you want, remove the unload_text_encoder flag
+***********************************
+
+Skipping first sample due to config setting
+lisaFLU2Ran32alfa64:  50%|█████     | 1000/2000 [00:00<?, ?it/s]lisaFLU2Ran32alfa64:  50%|█████     | 1000/2000 [00:11<?, ?it/s, lr: 1.0e-04 loss: 3.000e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1000/2000 [00:11<?, ?it/s, lr: 1.0e-04 loss: 3.000e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1000/2000 [00:19<?, ?it/s, lr: 1.0e-04 loss: 1.077e+00]lisaFLU2Ran32alfa64:  50%|█████     | 1001/2000 [00:25<6:59:09, 25.17s/it, lr: 1.0e-04 loss: 1.329e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1002/2000 [00:31<4:20:42, 15.67s/it, lr: 1.0e-04 loss: 7.993e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1003/2000 [00:37<3:26:58, 12.46s/it, lr: 1.0e-04 loss: 1.870e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1004/2000 [00:43<3:01:29, 10.93s/it, lr: 1.0e-04 loss: 3.321e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1005/2000 [00:50<2:45:50, 10.00s/it, lr: 1.0e-04 loss: 7.461e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1006/2000 [00:56<2:35:43,  9.40s/it, lr: 1.0e-04 loss: 3.519e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1007/2000 [01:02<2:28:33,  8.98s/it, lr: 1.0e-04 loss: 8.265e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1008/2000 [01:09<2:22:47,  8.64s/it, lr: 1.0e-04 loss: 4.353e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1009/2000 [01:15<2:18:34,  8.39s/it, lr: 1.0e-04 loss: 6.388e-01]lisaFLU2Ran32alfa64:  50%|█████     | 1010/2000 [01:22<2:15:34,  8.22s/it, lr: 1.0e-04 loss: 8.053e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1011/2000 [01:28<2:12:19,  8.03s/it, lr: 1.0e-04 loss: 5.768e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1012/2000 [01:34<2:09:26,  7.86s/it, lr: 1.0e-04 loss: 2.318e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1013/2000 [01:40<2:07:06,  7.73s/it, lr: 1.0e-04 loss: 1.912e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1014/2000 [01:46<2:05:02,  7.61s/it, lr: 1.0e-04 loss: 1.863e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1015/2000 [01:52<2:03:16,  7.51s/it, lr: 1.0e-04 loss: 4.781e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1016/2000 [01:59<2:02:52,  7.49s/it, lr: 1.0e-04 loss: 5.760e-02]lisaFLU2Ran32alfa64:  51%|█████     | 1017/2000 [02:06<2:02:04,  7.45s/it, lr: 1.0e-04 loss: 3.428e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1018/2000 [02:13<2:01:12,  7.41s/it, lr: 1.0e-04 loss: 5.546e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1019/2000 [02:19<2:00:22,  7.36s/it, lr: 1.0e-04 loss: 1.710e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1020/2000 [02:27<2:00:05,  7.35s/it, lr: 1.0e-04 loss: 6.247e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1021/2000 [02:33<1:59:35,  7.33s/it, lr: 1.0e-04 loss: 8.185e-02]lisaFLU2Ran32alfa64:  51%|█████     | 1022/2000 [02:41<1:59:22,  7.32s/it, lr: 1.0e-04 loss: 4.647e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1023/2000 [02:48<1:59:15,  7.32s/it, lr: 1.0e-04 loss: 3.384e-01]lisaFLU2Ran32alfa64:  51%|█████     | 1024/2000 [02:55<1:59:02,  7.32s/it, lr: 1.0e-04 loss: 5.146e-01]lisaFLU2Ran32alfa64:  51%|█████▏    | 1025/2000 [03:03<1:59:03,  7.33s/it, lr: 1.0e-04 loss: 2.854e-01]lisaFLU2Ran32alfa64:  51%|█████▏    | 1026/2000 [03:10<1:58:55,  7.33s/it, lr: 1.0e-04 loss: 2.745e-01]lisaFLU2Ran32alfa64:  51%|█████▏    | 1027/2000 [03:17<1:58:46,  7.32s/it, lr: 1.0e-04 loss: 3.580e-01]lisaFLU2Ran32alfa64:  51%|█████▏    | 1028/2000 [03:23<1:58:00,  7.28s/it, lr: 1.0e-04 loss: 4.120e-01]lisaFLU2Ran32alfa64:  51%|█████▏    | 1029/2000 [03:30<1:57:14,  7.24s/it, lr: 1.0e-04 loss: 6.440e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1030/2000 [03:36<1:56:28,  7.21s/it, lr: 1.0e-04 loss: 4.027e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1031/2000 [03:42<1:55:56,  7.18s/it, lr: 1.0e-04 loss: 6.230e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1032/2000 [03:49<1:55:29,  7.16s/it, lr: 1.0e-04 loss: 8.153e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1033/2000 [03:55<1:55:03,  7.14s/it, lr: 1.0e-04 loss: 6.958e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1034/2000 [04:02<1:54:37,  7.12s/it, lr: 1.0e-04 loss: 2.240e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1035/2000 [04:08<1:54:12,  7.10s/it, lr: 1.0e-04 loss: 7.079e-02]lisaFLU2Ran32alfa64:  52%|█████▏    | 1036/2000 [04:14<1:53:47,  7.08s/it, lr: 1.0e-04 loss: 5.567e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1037/2000 [04:21<1:53:23,  7.07s/it, lr: 1.0e-04 loss: 6.052e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1038/2000 [04:27<1:52:55,  7.04s/it, lr: 1.0e-04 loss: 3.117e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1039/2000 [04:33<1:52:26,  7.02s/it, lr: 1.0e-04 loss: 7.530e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1040/2000 [04:39<1:51:58,  7.00s/it, lr: 1.0e-04 loss: 7.415e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1041/2000 [04:46<1:51:30,  6.98s/it, lr: 1.0e-04 loss: 2.498e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1042/2000 [04:52<1:51:04,  6.96s/it, lr: 1.0e-04 loss: 7.834e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1043/2000 [04:58<1:50:45,  6.94s/it, lr: 1.0e-04 loss: 6.411e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1044/2000 [05:04<1:50:19,  6.92s/it, lr: 1.0e-04 loss: 9.151e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1045/2000 [05:10<1:49:52,  6.90s/it, lr: 1.0e-04 loss: 4.851e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1046/2000 [05:16<1:49:25,  6.88s/it, lr: 1.0e-04 loss: 6.765e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1047/2000 [05:22<1:48:58,  6.86s/it, lr: 1.0e-04 loss: 2.029e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1048/2000 [05:28<1:48:33,  6.84s/it, lr: 1.0e-04 loss: 3.611e-01]lisaFLU2Ran32alfa64:  52%|█████▏    | 1049/2000 [05:34<1:48:08,  6.82s/it, lr: 1.0e-04 loss: 1.857e-01]lisaFLU2Ran32alfa64:  52%|█████▎    | 1050/2000 [05:40<1:47:42,  6.80s/it, lr: 1.0e-04 loss: 1.514e-02]lisaFLU2Ran32alfa64:  53%|█████▎    | 1051/2000 [05:46<1:47:19,  6.79s/it, lr: 1.0e-04 loss: 6.989e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1052/2000 [05:51<1:46:56,  6.77s/it, lr: 1.0e-04 loss: 1.730e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1053/2000 [05:57<1:46:33,  6.75s/it, lr: 1.0e-04 loss: 7.106e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1054/2000 [06:03<1:46:12,  6.74s/it, lr: 1.0e-04 loss: 0.000e+00]lisaFLU2Ran32alfa64:  53%|█████▎    | 1055/2000 [06:09<1:45:50,  6.72s/it, lr: 1.0e-04 loss: 5.335e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1056/2000 [06:15<1:45:30,  6.71s/it, lr: 1.0e-04 loss: 2.959e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1057/2000 [06:21<1:45:11,  6.69s/it, lr: 1.0e-04 loss: 4.287e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1058/2000 [06:27<1:44:51,  6.68s/it, lr: 1.0e-04 loss: 5.536e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1059/2000 [06:33<1:44:34,  6.67s/it, lr: 1.0e-04 loss: 3.793e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1060/2000 [06:39<1:44:16,  6.66s/it, lr: 1.0e-04 loss: 4.714e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1061/2000 [06:45<1:43:59,  6.64s/it, lr: 1.0e-04 loss: 2.336e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1062/2000 [06:51<1:43:41,  6.63s/it, lr: 1.0e-04 loss: 7.629e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1063/2000 [06:57<1:43:22,  6.62s/it, lr: 1.0e-04 loss: 1.507e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1064/2000 [07:02<1:43:06,  6.61s/it, lr: 1.0e-04 loss: 3.557e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1065/2000 [07:08<1:42:48,  6.60s/it, lr: 1.0e-04 loss: 7.281e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1066/2000 [07:14<1:42:33,  6.59s/it, lr: 1.0e-04 loss: 1.628e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1067/2000 [07:20<1:42:16,  6.58s/it, lr: 1.0e-04 loss: 6.041e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1068/2000 [07:26<1:42:00,  6.57s/it, lr: 1.0e-04 loss: 2.515e-01]lisaFLU2Ran32alfa64:  53%|█████▎    | 1069/2000 [07:32<1:41:49,  6.56s/it, lr: 1.0e-04 loss: 5.882e-01]lisaFLU2Ran32alfa64:  54%|█████▎    | 1070/2000 [07:38<1:41:33,  6.55s/it, lr: 1.0e-04 loss: 5.268e-01]lisaFLU2Ran32alfa64:  54%|█████▎    | 1071/2000 [07:44<1:41:18,  6.54s/it, lr: 1.0e-04 loss: 7.421e-01]lisaFLU2Ran32alfa64:  54%|█████▎    | 1072/2000 [07:50<1:41:05,  6.54s/it, lr: 1.0e-04 loss: 2.773e-01]lisaFLU2Ran32alfa64:  54%|█████▎    | 1073/2000 [07:56<1:40:50,  6.53s/it, lr: 1.0e-04 loss: 5.121e-01]lisaFLU2Ran32alfa64:  54%|█████▎    | 1074/2000 [08:02<1:40:36,  6.52s/it, lr: 1.0e-04 loss: 6.807e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1075/2000 [08:08<1:40:23,  6.51s/it, lr: 1.0e-04 loss: 2.264e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1076/2000 [08:14<1:40:08,  6.50s/it, lr: 1.0e-04 loss: 3.433e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1077/2000 [08:20<1:39:55,  6.50s/it, lr: 1.0e-04 loss: 5.368e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1078/2000 [08:26<1:39:42,  6.49s/it, lr: 1.0e-04 loss: 2.337e-02]lisaFLU2Ran32alfa64:  54%|█████▍    | 1079/2000 [08:31<1:39:28,  6.48s/it, lr: 1.0e-04 loss: 3.553e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1080/2000 [08:37<1:39:15,  6.47s/it, lr: 1.0e-04 loss: 2.581e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1081/2000 [08:43<1:39:03,  6.47s/it, lr: 1.0e-04 loss: 1.004e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1082/2000 [08:49<1:38:52,  6.46s/it, lr: 1.0e-04 loss: 1.587e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1083/2000 [08:55<1:38:39,  6.46s/it, lr: 1.0e-04 loss: 7.419e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1084/2000 [09:01<1:38:26,  6.45s/it, lr: 1.0e-04 loss: 7.345e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1085/2000 [09:07<1:38:14,  6.44s/it, lr: 1.0e-04 loss: 3.300e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1086/2000 [09:13<1:38:01,  6.43s/it, lr: 1.0e-04 loss: 1.079e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1087/2000 [09:19<1:37:48,  6.43s/it, lr: 1.0e-04 loss: 5.456e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1088/2000 [09:25<1:37:36,  6.42s/it, lr: 1.0e-04 loss: 2.358e-01]lisaFLU2Ran32alfa64:  54%|█████▍    | 1089/2000 [09:30<1:37:24,  6.42s/it, lr: 1.0e-04 loss: 3.617e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1090/2000 [09:36<1:37:12,  6.41s/it, lr: 1.0e-04 loss: 4.143e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1091/2000 [09:42<1:37:00,  6.40s/it, lr: 1.0e-04 loss: 1.133e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1092/2000 [09:48<1:36:50,  6.40s/it, lr: 1.0e-04 loss: 1.851e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1093/2000 [09:54<1:36:38,  6.39s/it, lr: 1.0e-04 loss: 5.224e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1094/2000 [10:00<1:36:27,  6.39s/it, lr: 1.0e-04 loss: 6.485e-02]lisaFLU2Ran32alfa64:  55%|█████▍    | 1095/2000 [10:06<1:36:16,  6.38s/it, lr: 1.0e-04 loss: 1.074e+00]lisaFLU2Ran32alfa64:  55%|█████▍    | 1096/2000 [10:12<1:36:06,  6.38s/it, lr: 1.0e-04 loss: 6.209e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1097/2000 [10:18<1:35:56,  6.37s/it, lr: 1.0e-04 loss: 6.512e-01]lisaFLU2Ran32alfa64:  55%|█████▍    | 1098/2000 [10:24<1:35:47,  6.37s/it, lr: 1.0e-04 loss: 6.373e-02]lisaFLU2Ran32alfa64:  55%|█████▍    | 1099/2000 [10:30<1:35:38,  6.37s/it, lr: 1.0e-04 loss: 6.655e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1100/2000 [10:36<1:35:30,  6.37s/it, lr: 1.0e-04 loss: 3.650e-02]lisaFLU2Ran32alfa64:  55%|█████▌    | 1101/2000 [10:42<1:35:22,  6.37s/it, lr: 1.0e-04 loss: 7.713e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1102/2000 [10:48<1:35:12,  6.36s/it, lr: 1.0e-04 loss: 4.501e-02]lisaFLU2Ran32alfa64:  55%|█████▌    | 1103/2000 [10:54<1:35:02,  6.36s/it, lr: 1.0e-04 loss: 1.022e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1104/2000 [11:00<1:34:53,  6.35s/it, lr: 1.0e-04 loss: 4.147e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1105/2000 [11:06<1:34:44,  6.35s/it, lr: 1.0e-04 loss: 5.772e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1106/2000 [11:12<1:34:34,  6.35s/it, lr: 1.0e-04 loss: 6.555e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1107/2000 [11:18<1:34:25,  6.34s/it, lr: 1.0e-04 loss: 8.687e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1108/2000 [11:24<1:34:15,  6.34s/it, lr: 1.0e-04 loss: 4.971e-01]lisaFLU2Ran32alfa64:  55%|█████▌    | 1109/2000 [11:30<1:34:05,  6.34s/it, lr: 1.0e-04 loss: 7.116e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1110/2000 [11:36<1:33:55,  6.33s/it, lr: 1.0e-04 loss: 3.762e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1111/2000 [11:42<1:33:46,  6.33s/it, lr: 1.0e-04 loss: 2.325e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1112/2000 [11:48<1:33:36,  6.32s/it, lr: 1.0e-04 loss: 1.181e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1113/2000 [11:54<1:33:26,  6.32s/it, lr: 1.0e-04 loss: 1.204e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1114/2000 [12:00<1:33:16,  6.32s/it, lr: 1.0e-04 loss: 7.287e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1115/2000 [12:06<1:33:08,  6.31s/it, lr: 1.0e-04 loss: 4.968e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1116/2000 [12:11<1:32:58,  6.31s/it, lr: 1.0e-04 loss: 2.378e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1117/2000 [12:17<1:32:48,  6.31s/it, lr: 1.0e-04 loss: 6.299e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1118/2000 [12:23<1:32:38,  6.30s/it, lr: 1.0e-04 loss: 9.986e-02]lisaFLU2Ran32alfa64:  56%|█████▌    | 1119/2000 [12:29<1:32:29,  6.30s/it, lr: 1.0e-04 loss: 1.808e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1120/2000 [12:35<1:32:20,  6.30s/it, lr: 1.0e-04 loss: 5.331e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1121/2000 [12:41<1:32:11,  6.29s/it, lr: 1.0e-04 loss: 7.406e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1122/2000 [12:47<1:32:02,  6.29s/it, lr: 1.0e-04 loss: 1.202e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1123/2000 [12:53<1:31:53,  6.29s/it, lr: 1.0e-04 loss: 6.484e-01]lisaFLU2Ran32alfa64:  56%|█████▌    | 1124/2000 [12:59<1:31:43,  6.28s/it, lr: 1.0e-04 loss: 1.888e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1125/2000 [13:04<1:31:34,  6.28s/it, lr: 1.0e-04 loss: 5.353e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1126/2000 [13:10<1:31:26,  6.28s/it, lr: 1.0e-04 loss: 5.187e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1127/2000 [13:16<1:31:17,  6.27s/it, lr: 1.0e-04 loss: 1.215e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1128/2000 [13:22<1:31:10,  6.27s/it, lr: 1.0e-04 loss: 3.001e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1129/2000 [13:28<1:31:01,  6.27s/it, lr: 1.0e-04 loss: 6.458e-01]lisaFLU2Ran32alfa64:  56%|█████▋    | 1130/2000 [13:34<1:30:52,  6.27s/it, lr: 1.0e-04 loss: 6.433e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1131/2000 [13:40<1:30:43,  6.26s/it, lr: 1.0e-04 loss: 3.161e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1132/2000 [13:46<1:30:34,  6.26s/it, lr: 1.0e-04 loss: 1.913e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1133/2000 [13:52<1:30:25,  6.26s/it, lr: 1.0e-04 loss: 7.612e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1134/2000 [13:58<1:30:17,  6.26s/it, lr: 1.0e-04 loss: 2.572e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1135/2000 [14:04<1:30:08,  6.25s/it, lr: 1.0e-04 loss: 3.119e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1136/2000 [14:09<1:29:59,  6.25s/it, lr: 1.0e-04 loss: 1.934e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1137/2000 [14:15<1:29:51,  6.25s/it, lr: 1.0e-04 loss: 3.307e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1138/2000 [14:21<1:29:43,  6.25s/it, lr: 1.0e-04 loss: 4.262e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1139/2000 [14:27<1:29:35,  6.24s/it, lr: 1.0e-04 loss: 6.811e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1140/2000 [14:33<1:29:26,  6.24s/it, lr: 1.0e-04 loss: 7.426e-02]lisaFLU2Ran32alfa64:  57%|█████▋    | 1141/2000 [14:39<1:29:18,  6.24s/it, lr: 1.0e-04 loss: 4.498e-02]lisaFLU2Ran32alfa64:  57%|█████▋    | 1142/2000 [14:45<1:29:10,  6.24s/it, lr: 1.0e-04 loss: 4.888e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1143/2000 [14:51<1:29:02,  6.23s/it, lr: 1.0e-04 loss: 3.002e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1144/2000 [14:57<1:28:53,  6.23s/it, lr: 1.0e-04 loss: 2.931e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1145/2000 [15:03<1:28:45,  6.23s/it, lr: 1.0e-04 loss: 1.562e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1146/2000 [15:09<1:28:37,  6.23s/it, lr: 1.0e-04 loss: 1.017e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1147/2000 [15:14<1:28:28,  6.22s/it, lr: 1.0e-04 loss: 4.040e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1148/2000 [15:20<1:28:20,  6.22s/it, lr: 1.0e-04 loss: 2.208e-01]lisaFLU2Ran32alfa64:  57%|█████▋    | 1149/2000 [15:26<1:28:12,  6.22s/it, lr: 1.0e-04 loss: 2.298e-01]lisaFLU2Ran32alfa64:  57%|█████▊    | 1150/2000 [15:32<1:28:04,  6.22s/it, lr: 1.0e-04 loss: 4.193e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1151/2000 [15:38<1:27:57,  6.22s/it, lr: 1.0e-04 loss: 4.126e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1152/2000 [15:44<1:27:49,  6.21s/it, lr: 1.0e-04 loss: 5.880e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1153/2000 [15:50<1:27:41,  6.21s/it, lr: 1.0e-04 loss: 9.105e-02]lisaFLU2Ran32alfa64:  58%|█████▊    | 1154/2000 [15:56<1:27:33,  6.21s/it, lr: 1.0e-04 loss: 3.054e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1155/2000 [16:02<1:27:25,  6.21s/it, lr: 1.0e-04 loss: 1.847e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1156/2000 [16:08<1:27:18,  6.21s/it, lr: 1.0e-04 loss: 3.030e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1157/2000 [16:14<1:27:12,  6.21s/it, lr: 1.0e-04 loss: 2.049e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1158/2000 [16:20<1:27:05,  6.21s/it, lr: 1.0e-04 loss: 1.012e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1159/2000 [16:26<1:26:58,  6.20s/it, lr: 1.0e-04 loss: 5.124e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1160/2000 [16:32<1:26:51,  6.20s/it, lr: 1.0e-04 loss: 2.911e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1161/2000 [16:38<1:26:45,  6.20s/it, lr: 1.0e-04 loss: 3.111e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1162/2000 [16:44<1:26:38,  6.20s/it, lr: 1.0e-04 loss: 6.913e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1163/2000 [16:50<1:26:31,  6.20s/it, lr: 1.0e-04 loss: 5.386e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1164/2000 [16:56<1:26:24,  6.20s/it, lr: 1.0e-04 loss: 3.123e-02]lisaFLU2Ran32alfa64:  58%|█████▊    | 1165/2000 [17:02<1:26:16,  6.20s/it, lr: 1.0e-04 loss: 2.628e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1166/2000 [17:09<1:26:10,  6.20s/it, lr: 1.0e-04 loss: 2.725e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1167/2000 [17:15<1:26:03,  6.20s/it, lr: 1.0e-04 loss: 1.603e-01]lisaFLU2Ran32alfa64:  58%|█████▊    | 1168/2000 [17:21<1:25:57,  6.20s/it, lr: 1.0e-04 loss: 1.621e-01]
