@@ -568,6 +568,9 @@ sharpR32ALPH64CONV32flux2: 82% | 819/1000 [1:29:42<19:49, 6.57s/it]
 
 **6.57 секунд на итерацию. 1000 шагов ≈ 2.5 часа.**
 
+<img width="1416" height="798" alt="Screenshot_20260421_110054_Chrome" src="https://github.com/user-attachments/assets/386acbaf-04e9-4e20-ac0b-fa763df63c74" />
+
+
 ### Главная деталь в профиле итерации
 
 - `backward: 3.85s` — GPU считает градиенты
