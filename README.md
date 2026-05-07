@@ -219,6 +219,9 @@ sharpR32ALPH64CONV32flux2: 82% | 819/1000 [1:29:42<19:49, 6.57s/it]
 
 **6.57 seconds per iteration. 1000 steps ≈ 2.5 hours.**
 
+<img width="1416" height="798" alt="Screenshot_20260421_110054_Chrome" src="https://github.com/user-attachments/assets/0dda7d71-135a-49cd-882e-fa53263d86c1" />
+
+
 ### The Key Detail in the Breakdown
 
 - `backward: 3.85s` — GPU computing gradients
