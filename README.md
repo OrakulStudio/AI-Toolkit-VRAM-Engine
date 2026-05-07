@@ -324,7 +324,7 @@ No model quantization. No quality compromise.
 
 ## Code
 
-Module: [`manager_modules.py`](https://github.com/OrakulStudio)  
+Module: [manager_modules.py](core/manager_modules.py)  
 
 
 ---
@@ -671,7 +671,7 @@ python run.py config/your_config.yaml
 
 ## Код
 
-Модуль: [`manager_modules.py`](https://github.com/OrakulStudio)  
+Модуль: [manager_modules.py](core/manager_modules.py) 
 
 
 ---
