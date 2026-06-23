@@ -4,7 +4,7 @@
 
 **or: an engine inside an engine, written in a basement under artillery fire**
 
-*Orakul Studio — Chernihiv, Ukraine 🇺🇦*
+*Orakul Studio - Chernihiv, Ukraine 🇺🇦*
 
 ---
 
@@ -16,7 +16,7 @@ This code was designed, rewritten, and optimized exclusively for directly runnin
 
 ### What breaks when running via the Web UI:
 
-1. Dynamic Alpha — DOESN'T WORK AT ALL**
+1. Dynamic Alpha  DOESN'T WORK AT ALL**
 * This repository implements dynamic Alpha recalculation logic for correct weight scaling (Scale = Alpha / Rank). For example, when working with high ranks (Rank 128, Rank 512, Rank 1024), the system automatically calculates a fair scale (down to Scale = 0.5000), allowing the model to deeply learn the structure and physics of the material.
 * **The web UI completely ignores this logic.** Almost all web wrappers under the hood forcibly overwrite this parameter and force a fixed Alpha = 16. At high ranks, this turns training into a dud: weight changes are suppressed, gradients tend to zero, the model visually "learns" without errors, but produces default output.
 
