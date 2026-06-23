@@ -153,13 +153,11 @@ Pinned memory cannot. The GPU DMA controller reads it directly — no intermedia
 ## Proof. Not Words  Logs.
 
 ### Stress Test: Rank 1024. The system holds.
-
-[Stress Test Rank 1024](logs/log.txt)
-
 ```
 amiguHDR1024:  39% | 39/100 [1:56:48<3:02:42, 179.71s/it]
 amiguHDR1024:  40% | 40/100 [1:59:43<2:59:35, 179.58s/it]
 ```
+[Stress Test Rank 1024](logs/log.txt)
 
 This is the **baseline before optimization** at rank 1024  the most extreme possible config.  
 179 sec/iter. No crashes. No OOM. The architecture survives what no one else attempts.
