@@ -150,22 +150,6 @@ Pinned memory cannot. The GPU DMA controller reads it directly — no intermedia
 
 ---
 
-<img width="1416" height="798" alt="Screenshot_20260421_110054_Chrome" src="https://github.com/user-attachments/assets/0dda7d71-135a-49cd-882e-fa53263d86c1" />
-
-
-### The Key Detail in the Breakdown
-
-- `backward: 3.85s` — GPU computing gradients
-- `predict_unet: 2.01s` — forward pass
-- `optimizer_step: 0.08s` — weight update
-- **transfer time: absent**
-
-Transfer has **disappeared from the profile**.  
-It runs in parallel and does not register as measurable time.  
-This is the proof that overlap works — the bottleneck is gone.
-
----
-
 ## Scalability. Why This Matters Beyond the RTX 4090.
 
 This pattern is not a consumer GPU trick. It is an architectural decision.
@@ -173,16 +157,6 @@ This pattern is not a consumer GPU trick. It is an architectural decision.
 ### On Server Hardware
 
 On server systems with NVLink (A100/H100 clusters), weights stream GPU→GPU instead of CPU→GPU. The principle is identical: double buffering + async stream + CUDA events.
-
-```python
-# Consumer: CPU RAM → GPU VRAM
-w = weight_cpu.to(device, non_blocking=True)
-
-# Server: GPU_0 VRAM → GPU_1 VRAM (NVLink)
-w = weight_gpu0.to(device_1, non_blocking=True)
-```
-
-`_BouncingLinearFn` maps to server topology with virtually no changes.
 
 ### On Tensor Parallelism
 
@@ -195,9 +169,9 @@ No backward pass — only forward. Double buffering forward yields even greater 
 ### The Scaling Formula
 
 The overlap benefit grows with:
-- **Number of layers** — more layers, more opportunities for overlap
-- **Weight tensor size** — larger transfers = greater potential to hide latency
-- **Compute intensity** — the longer the GPU computes, the more the transfer can complete
+- **Number of layers**  more layers, more opportunities for overlap
+- **Weight tensor size**  larger transfers = greater potential to hide latency
+- **Compute intensity**  the longer the GPU computes, the more the transfer can complete
 
 At rank 32 these three factors are optimally balanced.  
 That is why 6.57 sec/iter is achievable on consumer hardware.
@@ -219,7 +193,7 @@ It means the right architecture matters more than the hardware.
 
 ## Try It Yourself
 
-Recommended config — rank 32, fast and high quality:
+Recommended config  rank 32, fast and high quality:
 
 ```yaml
 network:
@@ -425,7 +399,7 @@ amiguHDR1024:  39% | 39/100 [1:56:48<3:02:42, 179.71s/it]
 amiguHDR1024:  40% | 40/100 [1:59:43<2:59:35, 179.58s/it]
 ```
 
-Это **baseline до оптимизации** при rank 1024 — самый экстремальный конфиг из возможных.  
+Это **baseline до оптимизации** при rank 1024  самый экстремальный конфиг из возможных.  
 179 сек/итер. Ни одного вылета. Ни одного OOM.  
 Архитектура выдерживает то, за что никто другой не берётся.
 
@@ -466,14 +440,9 @@ Transfer **исчез из профиля**.
 На серверных системах с NVLink (A100/H100) веса стримятся GPU→GPU вместо CPU→GPU. Принцип идентичен: double buffering + async stream + CUDA events.
 
 ```python
-# Consumer: CPU RAM → GPU VRAM
-w = weight_cpu.to(device, non_blocking=True)
-
-# Server: GPU_0 VRAM → GPU_1 VRAM (NVLink)
-w = weight_gpu0.to(device_1, non_blocking=True)
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
-
-`_BouncingLinearFn` переносится на серверную топологию практически без изменений.
 
 ### На tensor parallelism
 
@@ -486,9 +455,9 @@ w = weight_gpu0.to(device_1, non_blocking=True)
 ### Формула масштабирования
 
 Выигрыш от overlap растёт с:
-- **Количеством слоёв** — больше слоёв, больше возможностей для overlap
-- **Размером весов** — больший transfer = больший потенциал скрытия латентности
-- **Вычислительной интенсивностью** — чем дольше GPU считает, тем больше успевает transfer
+- **Количеством слоёв**  больше слоёв, больше возможностей для overlap
+- **Размером весов**  больший transfer  больший потенциал скрытия латентности
+- **Вычислительной интенсивностью**  чем дольше GPU считает, тем больше успевает transfer
 
 При rank 32 все три фактора сбалансированы оптимально.  
 Именно поэтому 6.57 сек/итер достижимы на consumer железе.
@@ -529,7 +498,7 @@ network:
 ```bash
 git clone https://github.com/ostris/ai-toolkit
 cd ai-toolkit
-# Заменить manager_modules.py (ссылка на релиз — скоро)
+# Заменить manager_modules.py (ссылка на релиз  скоро)
 python run.py config/your_config.yaml
 ```
 
@@ -547,12 +516,6 @@ python run.py config/your_config.yaml
 - [ ] Benchmarks на A100 / H100 для подтверждения масштабируемости
 
 ---
-
-## Код
-
-Модуль: [manager_modules.py](core/manager_modules.py) 
-
-
 ---
 
 *Запах утюга стабільний. Система працює. 🦊*
