@@ -20,7 +20,7 @@ This code was designed, rewritten, and optimized exclusively for directly runnin
 * This repository implements dynamic Alpha recalculation logic for correct weight scaling (Scale = Alpha / Rank). For example, when working with high ranks (Rank 128, Rank 512, Rank 1024), the system automatically calculates a fair scale (down to Scale = 0.5000), allowing the model to deeply learn the structure and physics of the material.
 * **The web UI completely ignores this logic.** Almost all web wrappers under the hood forcibly overwrite this parameter and force a fixed Alpha = 16. At high ranks, this turns training into a dud: weight changes are suppressed, gradients tend to zero, the model visually "learns" without errors, but produces default output.
 
-2. **Asynchronous Memory Manager (Async CUDA Memory Manager) — CRASHED**
+2. **Asynchronous Memory Manager (Async CUDA Memory Manager)  CRASHED**
 * The logic for memory retention and low-level logging is optimized for the terminal's stdout.
 * Web interfaces attempt to intercept and parse the string stream for their browser consoles. At best, this leads to a crash of the backend interface due to custom security prints; at worst, to a hidden downcast of tensor precision and gradient castration, so that a casual user doesn't simply "get a memory error."
 
@@ -80,14 +80,14 @@ This is a **sequential process**. The GPU waits idle while data arrives.
 Data travels while the GPU does nothing.
 
 At rank 32, this overhead is already significant across hundreds of layers.  
-At rank 1024 it becomes catastrophic — 179 seconds per iteration.  
+At rank 1024 it becomes catastrophic  179 seconds per iteration.  
 That is why the stress test exists: to show the full scale of the problem.
 
 ---
 
 ## The Solution. Also for Everyone.
 
-The idea is simple. The implementation — not so much.
+The idea is simple. The implementation  not so much.
 
 While the GPU **computes** layer N — in a separate CUDA stream, in parallel, **the transfer of layer N+1's weights has already begun**.
 
@@ -98,7 +98,7 @@ Transfer weights layer N+1  ████████████████
                             Starts simultaneously
 ```
 
-By the time the GPU finishes layer N — the weights for layer N+1 are already there. No waiting.
+By the time the GPU finishes layer N  the weights for layer N+1 are already there. No waiting.
 
 This is called **double buffering** with **compute-transfer overlap**.  
 In HPC systems, this is standard practice. In consumer PyTorch — it is not.
@@ -116,17 +116,17 @@ In HPC systems, this is standard practice. In consumer PyTorch — it is not.
 
 **Two buffers** hold the weights of the current and next layer simultaneously.  
 **Two CUDA streams** let transfer and compute run in parallel.  
-**CUDA Events** are semaphores — they tell one stream when the other has finished.
+**CUDA Events** are semaphores  they tell one stream when the other has finished.
 
 ### Custom Autograd Function
 
-This is the heart of the system. `_BouncingLinearFn` — a custom `torch.autograd.Function` that intercepts every linear layer in the model:
+This is the heart of the system. `_BouncingLinearFn`  a custom `torch.autograd.Function` that intercepts every linear layer in the model:
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
 > Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
-### Pinned Memory — DMA Without Copying
+### Pinned Memory  DMA Without Copying
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
@@ -136,7 +136,7 @@ This is the heart of the system. `_BouncingLinearFn` — a custom `torch.autogra
 Regular RAM can be swapped out by the OS at any moment.  
 Pinned memory cannot. The GPU DMA controller reads it directly — no intermediate CPU cache copy. Another multiplier on transfer speed.
 
-### Backward Pass — Same Principle
+### Backward Pass  Same Principle
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
@@ -150,7 +150,7 @@ Pinned memory cannot. The GPU DMA controller reads it directly — no intermedia
 
 ---
 
-## Proof. Not Words — Logs.
+## Proof. Not Words  Logs.
 
 ### Stress Test: Rank 1024. The system holds.
 
@@ -161,7 +161,7 @@ amiguHDR1024:  39% | 39/100 [1:56:48<3:02:42, 179.71s/it]
 amiguHDR1024:  40% | 40/100 [1:59:43<2:59:35, 179.58s/it]
 ```
 
-This is the **baseline before optimization** at rank 1024 — the most extreme possible config.  
+This is the **baseline before optimization** at rank 1024  the most extreme possible config.  
 179 sec/iter. No crashes. No OOM. The architecture survives what no one else attempts.
 
 ### Production: Rank 32 / Alpha 64. This is what you actually train with.
@@ -311,7 +311,7 @@ MIT — use it, fork it, improve it.
 
 ## Цифры. Сразу.
 
-Потому что без них всё остальное — просто слова.
+Потому что без них всё остальное  просто слова.
 
 ### Боевые результаты обучения (Rank 32 / Alpha 64)
 
@@ -343,7 +343,7 @@ MIT — use it, fork it, improve it.
 
 ## Проблема. Для всех.
 
-Flux2 — это большая модель. Трансформер с миллиардами параметров.  
+Flux2  это большая модель. Трансформер с миллиардами параметров.  
 RTX 4090 — это 24 GB VRAM. Модель туда **не помещается целиком**.
 
 ai-toolkit решает это через **layer offloading**: веса каждого слоя хранятся в RAM, и перед вычислением слоя они переносятся на GPU, а после — выгружаются обратно.
@@ -359,16 +359,16 @@ GPU вычисляет слой N      █████████████�
 Данные едут пока GPU ничего не делает.
 
 При rank 32 этот overhead накапливается по сотням слоёв модели.  
-При rank 1024 он становится катастрофическим — 179 секунд на итерацию.  
+При rank 1024 он становится катастрофическим  179 секунд на итерацию.  
 Именно поэтому существует стресс-тест: он показывает полный масштаб проблемы.
 
 ---
 
 ## Решение. Тоже для всех.
 
-Идея простая. Реализация — нет.
+Идея простая. Реализация  нет.
 
-Пока GPU **вычисляет** слой N — параллельно, в отдельном CUDA-потоке, **уже начинается перенос весов** слоя N+1.
+Пока GPU **вычисляет** слой N  параллельно, в отдельном CUDA-потоке, **уже начинается перенос весов** слоя N+1.
 
 ```
 GPU вычисляет слой N      ████████████████
@@ -377,10 +377,10 @@ GPU вычисляет слой N      █████████████�
                           Начинается одновременно
 ```
 
-GPU заканчивает слой N — и веса слоя N+1 уже на месте. Ждать не нужно.
+GPU заканчивает слой N  и веса слоя N+1 уже на месте. Ждать не нужно.
 
 Это называется **double buffering** с **compute-transfer overlap**.  
-В HPC-системах это стандарт. В consumer PyTorch — нет.
+В HPC-системах это стандарт. В consumer PyTorch  нет.
 
 ---
 
@@ -409,7 +409,7 @@ GPU заканчивает слой N — и веса слоя N+1 уже на �
 > 🔒 **Orakul Studio Proprietary Tech**  
 > Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
-### Pinned Memory — DMA без копирования
+### Pinned Memory  DMA без копирования
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
@@ -417,18 +417,18 @@ GPU заканчивает слой N — и веса слоя N+1 уже на �
 ```
 
 Обычные страницы RAM могут быть вытеснены ОС в swap.  
-Pinned memory — нет. DMA-контроллер GPU читает её напрямую, без промежуточного копирования через CPU cache. Ещё один множитель к скорости transfer.
+Pinned memory  нет. DMA-контроллер GPU читает её напрямую, без промежуточного копирования через CPU cache. Ещё один множитель к скорости transfer.
 
-### Backward pass — тот же принцип
+### Backward pass  тот же принцип
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
 > Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
-Forward и backward — оба используют overlap. Каждый шаг обучения полностью асинхронный.
+Forward и backward  оба используют overlap. Каждый шаг обучения полностью асинхронный.
 
-### Подключение к модели — одна строка
+### Подключение к модели  одна строка
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
@@ -436,11 +436,11 @@ Forward и backward — оба используют overlap. Каждый шаг
 ```
 
 `attach()` вызывается один раз при инициализации для каждого линейного слоя.  
-После этого модель работает как обычно — PyTorch не знает что под капотом другой движок.
+После этого модель работает как обычно  PyTorch не знает что под капотом другой движок.
 
 ---
 
-## Доказательства. Не слова — логи.
+## Доказательства. Не слова  логи.
 
 ### Стресс-тест: Rank 1024. Система держит.
 
@@ -479,7 +479,7 @@ sharpR32ALPH64CONV32flux2: 82% | 819/1000 [1:29:42<19:49, 6.57s/it]
 
 Transfer **исчез из профиля**.  
 Он работает параллельно и не попадает в измеримое время.  
-Это и есть доказательство что overlap работает — узкое горло устранено.
+Это и есть доказательство что overlap работает  узкое горло устранено.
 
 ---
 
@@ -507,7 +507,7 @@ w = weight_gpu0.to(device_1, non_blocking=True)
 
 ### На inference
 
-Нет backward pass — только forward. Double buffering forward даёт ещё больший выигрыш: не нужно хранить активации. Throughput inference-сервера растёт пропорционально числу слоёв модели.
+Нет backward pass  только forward. Double buffering forward даёт ещё больший выигрыш: не нужно хранить активации. Throughput inference-сервера растёт пропорционально числу слоёв модели.
 
 ### Формула масштабирования
 
@@ -523,7 +523,7 @@ w = weight_gpu0.to(device_1, non_blocking=True)
 
 ## Контекст. Почему это сделал не датацентр.
 
-ostris/ai-toolkit — опенсорсный проект для обучения LoRA.  
+ostris/ai-toolkit  опенсорсный проект для обучения LoRA.  
 Его используют тысячи людей с consumer GPU.  
 Стандартный layer offloading в нём работает последовательно.
 
@@ -537,7 +537,7 @@ ostris/ai-toolkit — опенсорсный проект для обучени�
 
 ## Попробовать самому
 
-Рекомендованный конфиг — rank 32, быстро и качественно:
+Рекомендованный конфиг  rank 32, быстро и качественно:
 
 ```yaml
 network:
