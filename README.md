@@ -243,9 +243,7 @@ No model quantization. No quality compromise.
 MIT — use it, fork it, improve it.
 
 
-# Русская версия  
-[Back to English / Наверх](#Orakul Engine: Universal VRAM Management for Ostris AI-Toolkit)
-
+# Русская версия 
 
 # Orakul Engine: Universal VRAM Management for Ostris AI-Toolkit
 
