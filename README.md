@@ -110,17 +110,8 @@ In HPC systems, this is standard practice. In consumer PyTorch — it is not.
 ### Two Buffers. Two Streams. One CUDA Graph.
 
 ```python
-# Device state — initialized once
-_DEVICE_STATE[device] = {
-    "transfer_stream":  torch.cuda.Stream(device=device),  # DMA stream
-    "w_buffers":  [None, None],   # two buffers — ping and pong
-    "b_buffers":  [None, None],   # bias buffers
-    "forward_clk": 0,             # current buffer index (0 or 1)
-
-    # Events for cross-stream synchronization
-    "transfer_forward_finished_event":  torch.cuda.Event(),
-    "compute_forward_start_event":      torch.cuda.Event(),
-}
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 **Two buffers** hold the weights of the current and next layer simultaneously.  
@@ -132,46 +123,14 @@ _DEVICE_STATE[device] = {
 This is the heart of the system. `_BouncingLinearFn` — a custom `torch.autograd.Function` that intercepts every linear layer in the model:
 
 ```python
-class _BouncingLinearFn(torch.autograd.Function):
-    @staticmethod
-    def forward(ctx, x, weight_cpu, bias_cpu, device):
-        state = _get_device_state(device)
-        idx = state["forward_clk"]  # current buffer (0 or 1)
-
-        # In a separate stream — non-blocking weight transfer
-        with torch.cuda.stream(state["transfer_stream"]):
-            state["transfer_stream"].wait_event(
-                state["compute_forward_start_event"]
-            )
-            # Launch DMA transfer — CPU RAM → GPU VRAM
-            w = weight_cpu.to(device, non_blocking=True)
-            state["w_buffers"][idx] = _dequant(w, dtype)
-            # Signal: weights are ready
-            state["transfer_forward_finished_event"].record()
-
-        # In the main compute stream — wait only on the event, not the transfer
-        torch.cuda.current_stream().wait_event(
-            state["transfer_forward_finished_event"]
-        )
-        state["compute_forward_start_event"].record()
-
-        # Switch buffer (ping → pong)
-        state["forward_clk"] ^= 1
-
-        # Compute — weights are already on GPU
-        return F.linear(x, state["w_buffers"][idx], state["b_buffers"][idx])
-```
-
-**`^= 1`** is XOR index switching. `0 → 1 → 0 → 1...`  
-While compute works with buffer `[0]`, transfer writes into buffer `[1]`. And vice versa.
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
 ### Pinned Memory — DMA Without Copying
 
 ```python
-def _ensure_cpu_pinned(t):
-    if not t.is_pinned():
-        t = t.pin_memory()
-    return t
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 Regular RAM can be swapped out by the OS at any moment.  
@@ -180,38 +139,14 @@ Pinned memory cannot. The GPU DMA controller reads it directly — no intermedia
 ### Backward Pass — Same Principle
 
 ```python
-@staticmethod
-def backward(ctx, grad_out):
-    with torch.cuda.stream(state["transfer_stream"]):
-        w = weight_cpu.to(ctx.device, non_blocking=True)
-        state["w_bwd_buffers"][idx] = _dequant(w, ctx.dtype)
-        state["transfer_backward_finished_event"].record()
-
-    torch.cuda.current_stream().wait_event(
-        state["transfer_backward_finished_event"]
-    )
-
-    grad_input  = grad_out @ state["w_bwd_buffers"][idx]
-    grad_weight = grad_out.flatten(0,-2).T @ x.flatten(0,-2)
-    grad_bias   = grad_out.sum(dim=tuple(range(grad_out.ndim - 1)))
-
-    return grad_input, grad_weight, grad_bias, None
-```
-
-Both forward and backward use overlap. Every training step is fully asynchronous.
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
 ### Attaching to the Model — One Line
 
 ```python
-class LinearLayerMemoryManager:
-    @classmethod
-    def attach(cls, m, mgr):
-        if not hasattr(m, "_layer_memory_manager"):
-            m._layer_memory_manager = cls(m, mgr)
-```
-
-`attach()` is called once at init for each linear layer.  
-After that, the model runs as normal — PyTorch has no idea a different engine is underneath.
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
 ---
 
@@ -347,12 +282,8 @@ No model quantization. No quality compromise.
 
 ---
 
-## Code
-
-Module: [manager_modules.py](core/manager_modules.py)  
-
-
----
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
 *The smell of the iron is stable. The system is running. 🦊*
 
@@ -458,17 +389,8 @@ GPU заканчивает слой N — и веса слоя N+1 уже на �
 ### Два буфера. Два потока. Один CUDA-граф.
 
 ```python
-# Состояние устройства — инициализируется один раз
-_DEVICE_STATE[device] = {
-    "transfer_stream":  torch.cuda.Stream(device=device),  # поток для DMA
-    "w_buffers":  [None, None],   # два буфера — ping и pong
-    "b_buffers":  [None, None],   # буферы для bias
-    "forward_clk": 0,             # текущий индекс буфера (0 или 1)
-
-    # События для синхронизации между потоками
-    "transfer_forward_finished_event":  torch.cuda.Event(),
-    "compute_forward_start_event":      torch.cuda.Event(),
-}
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 **Два буфера** держат веса текущего и следующего слоя одновременно.  
@@ -480,46 +402,18 @@ _DEVICE_STATE[device] = {
 Это сердце системы. `_BouncingLinearFn` — кастомный `torch.autograd.Function` который перехватывает каждый линейный слой модели:
 
 ```python
-class _BouncingLinearFn(torch.autograd.Function):
-    @staticmethod
-    def forward(ctx, x, weight_cpu, bias_cpu, device):
-        state = _get_device_state(device)
-        idx = state["forward_clk"]  # текущий буфер (0 или 1)
-
-        # В отдельном потоке — неблокирующий перенос весов
-        with torch.cuda.stream(state["transfer_stream"]):
-            state["transfer_stream"].wait_event(
-                state["compute_forward_start_event"]
-            )
-            # Запускаем DMA transfer — CPU RAM → GPU VRAM
-            w = weight_cpu.to(device, non_blocking=True)
-            state["w_buffers"][idx] = _dequant(w, dtype)
-            # Сигнализируем: веса готовы
-            state["transfer_forward_finished_event"].record()
-
-        # В основном compute потоке — ждём только событие, не сам transfer
-        torch.cuda.current_stream().wait_event(
-            state["transfer_forward_finished_event"]
-        )
-        state["compute_forward_start_event"].record()
-
-        # Переключаем буфер (ping → pong)
-        state["forward_clk"] ^= 1
-
-        # Вычисление — веса уже на GPU
-        return F.linear(x, state["w_buffers"][idx], state["b_buffers"][idx])
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
-**`^= 1`** — XOR-переключение индекса. `0 → 1 → 0 → 1...`  
-Пока compute работает с буфером `[0]`, transfer пишет в буфер `[1]`. И наоборот.
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
 ### Pinned Memory — DMA без копирования
 
 ```python
-def _ensure_cpu_pinned(t):
-    if not t.is_pinned():
-        t = t.pin_memory()
-    return t
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 Обычные страницы RAM могут быть вытеснены ОС в swap.  
@@ -528,22 +422,8 @@ Pinned memory — нет. DMA-контроллер GPU читает её нап�
 ### Backward pass — тот же принцип
 
 ```python
-@staticmethod
-def backward(ctx, grad_out):
-    with torch.cuda.stream(state["transfer_stream"]):
-        w = weight_cpu.to(ctx.device, non_blocking=True)
-        state["w_bwd_buffers"][idx] = _dequant(w, ctx.dtype)
-        state["transfer_backward_finished_event"].record()
-
-    torch.cuda.current_stream().wait_event(
-        state["transfer_backward_finished_event"]
-    )
-
-    grad_input  = grad_out @ state["w_bwd_buffers"][idx]
-    grad_weight = grad_out.flatten(0,-2).T @ x.flatten(0,-2)
-    grad_bias   = grad_out.sum(dim=tuple(range(grad_out.ndim - 1)))
-
-    return grad_input, grad_weight, grad_bias, None
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 Forward и backward — оба используют overlap. Каждый шаг обучения полностью асинхронный.
@@ -551,11 +431,8 @@ Forward и backward — оба используют overlap. Каждый шаг
 ### Подключение к модели — одна строка
 
 ```python
-class LinearLayerMemoryManager:
-    @classmethod
-    def attach(cls, m, mgr):
-        if not hasattr(m, "_layer_memory_manager"):
-            m._layer_memory_manager = cls(m, mgr)
+> 🔒 **Orakul Studio Proprietary Tech**  
+> Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 ```
 
 `attach()` вызывается один раз при инициализации для каждого линейного слоя.  
