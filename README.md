@@ -155,7 +155,7 @@ This is the heart of the system. `_BouncingLinearFn`  a custom `torch.autograd.F
 ```
 
 Regular RAM can be swapped out by the OS at any moment.  
-Pinned memory cannot. The GPU DMA controller reads it directly — no intermediate CPU cache copy. Another multiplier on transfer speed.
+Pinned memory cannot. The GPU DMA controller reads it directly  no intermediate CPU cache copy. Another multiplier on transfer speed.
 
 ### Backward Pass  Same Principle
 
@@ -163,7 +163,7 @@ Pinned memory cannot. The GPU DMA controller reads it directly — no intermedia
 > 🔒 **Orakul Studio Proprietary Tech**  
 > Core architecture and high-performance memory optimization layers are closed-source. Distributed exclusively via compiled binary module. The repository is open, and the pipeline is fully functional and stable..
 
-### Attaching to the Model — One Line
+### Attaching to the Model  One Line
 
 ```python
 > 🔒 **Orakul Studio Proprietary Tech**  
@@ -185,7 +185,7 @@ Each GPU holds a shard of the layer's weights. The same CUDA streams and Events 
 
 ### On Inference
 
-No backward pass — only forward. Double buffering forward yields even greater gains since no activations need to be retained. Inference server throughput scales proportionally with the number of model layers.
+No backward pass  only forward. Double buffering forward yields even greater gains since no activations need to be retained. Inference server throughput scales proportionally with the number of model layers.
 
 ### The Scaling Formula
 
@@ -232,7 +232,7 @@ network:
 ```bash
 git clone https://github.com/ostris/ai-toolkit
 cd ai-toolkit
-# Replace manager_modules.py  (release — coming soon)
+# Replace manager_modules.py  (release  coming soon)
 python run.py config/your_config.yaml
 ```
 
@@ -259,10 +259,9 @@ No model quantization. No quality compromise.
 *Chernihiv, Ukraine 🇺🇦 · Orakul Studio · 2026*
 
 
-## License
+## 📜 License
 
-MIT — use it, fork it, improve it.
-
+This project is licensed under the **MIT License**  free for personal and commercial use. See the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://members.opensource.org/user/roman-nykonov) file for details.
 
 # Русская версия 
 
@@ -439,9 +438,9 @@ sharpR32ALPH64CONV32flux2: 82% | 819/1000 [1:29:42<19:49, 6.57s/it]
 
 ### Главная деталь в профиле итерации
 
-- `backward: 3.85s` — GPU считает градиенты
-- `predict_unet: 2.01s` — forward pass
-- `optimizer_step: 0.08s` — обновление весов
+- `backward: 3.85s`  GPU считает градиенты
+- `predict_unet: 2.01s`  forward pass
+- `optimizer_step: 0.08s`  обновление весов
 - **transfer времени нет**
 
 Transfer **исчез из профиля**.  
@@ -542,8 +541,8 @@ python run.py config/your_config.yaml
 *Chernihiv, Ukraine 🇺🇦 · Orakul Studio · 2026*
 
 
-## Лицензия
+## 📜 License
 
-MIT — используй, форкай, улучшай.
+This project is licensed under the **MIT License**  free for personal and commercial use. See the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://members.opensource.org/user/roman-nykonov) file for details.
 
 [Back to English / Наверх](#Orakul Engine: Universal VRAM Management for Ostris AI-Toolkit)
